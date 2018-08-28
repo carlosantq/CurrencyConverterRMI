@@ -1,6 +1,5 @@
 package br.ufrn.imd.ccrmi;
 
-import java.io.EOFException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -8,12 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
-
 import javax.swing.JOptionPane;
-
-import com.sun.media.jfxmedia.logging.Logger;
 
 public class Client {
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
@@ -41,9 +35,17 @@ public class Client {
 				"BRL - Real Brasileiro", "MYR - Ringgit Malaio", "RUB - Rublo Russo", "KRW - Won Sul-coreano",
 				"CNY - Yuan Renminbi Chinês", "PLN - Zloty Polonês" };
 
-		double value = Double.parseDouble(JOptionPane.showInputDialog("Value"));
+		Double value = 0.0;
 		
-		
+		while (value <= 0.0) {
+			try {
+				value = Double.parseDouble(JOptionPane.showInputDialog("Insert a value:"));
+			}catch(NullPointerException ne) {
+				System.exit(0);
+			}catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "Wrong format. Please insert a  valid number.");
+			}
+		}
 		
 		Object objetoFrom = JOptionPane.showInputDialog(null, "Convert Source", "CurrencyConverter",
 				JOptionPane.DEFAULT_OPTION, null, values, "DKK");
@@ -53,7 +55,8 @@ public class Client {
 			selectedFrom = objetoFrom.toString().substring(0, 3);
 			System.out.println(selectedFrom);
 		} else {
-			System.out.println("User cancelled");
+			System.out.println("User cancelled.");
+			System.exit(0);
 		}
 		
 		Object objetoTo = JOptionPane.showInputDialog(null, "Convert Source", "CurrencyConverter",
@@ -65,8 +68,7 @@ public class Client {
 			try{
 				resultado = stub.currencyAToB(value, selectedFrom, selectedTo);
 			} catch (UnmarshalException e) {
-				System.out.println("ops, I did it again. A API chegou ao limite e está cansada. Contate o grupo desenvolvedor para que seja "
-						+ "dada uma nova chave de acesso.");
+				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
 			}
 			
@@ -76,15 +78,15 @@ public class Client {
 			try{
 				result = stub.currencyAToAll(value, selectedFrom);
 			} catch (UnmarshalException e) {
-				System.out.println("ops, I did it again. A API chegou ao limite e está cansada. Contate o grupo desenvolvedor para que seja "
-						+ "dada uma nova chave de acesso.");
+				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
 			}
 			for (int i = 0; i < result.size(); i++) {
 				System.out.println(result.get(i));
 			}
 		} else {
-			System.out.println("User cancelled");
+			System.out.println("User cancelled.");
+			System.exit(0);
 		}
 
 

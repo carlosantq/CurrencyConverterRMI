@@ -30,49 +30,13 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 	public static final String STATIC_DOLAR = "USD";
 	static CloseableHttpClient httpClient = HttpClients.createDefault();
 
-	// TODO: Consumir a api para pegar os valores (com exceção do USD)
-	private static Double DKK = 0.0;
-	private static Double NOK = 0.0;
-	private static Double SEK = 0.0;
-	private static Double CZK = 0.0;
-	private static Double GBP = 1.28684;
-	private static Double TRY = 0.0;
-	private static Double INR = 0.0;
-	private static Double IDR = 0.0;
-	private static Double PKR = 0.0;
-	private static Double THB = 0.0;
-	private static final Double USD = 1.0;
-	private static Double AUD = 0.0;
-	private static Double CAD = 0.0;
-	private static Double SAD = 0.0;
-	private static Double HKD = 0.0;
-	private static Double TWD = 0.0;
-	private static Double NZD = 0.0;
-	private static Double EUR = 0.0;
-	private static Double HUF = 0.0;
-	private static Double CHF = 0.0;
-	private static Double JPY = 0.0;
-	private static Double ILS = 0.0;
-	private static Double CLP = 0.0;
-	private static Double PHP = 0.0;
-	private static Double MXN = 0.0;
-	private static Double ZAR = 0.0;
-	private static Double BRL = 0.24430;
-	private static Double MYR = 0.0;
-	private static Double RUB = 0.0;
-	private static Double KRW = 0.0;
-	private static Double CNY = 0.0;
-	private static Double PLN = 0.0;
-
 	/*
 	 * protected Converter() throws RemoteException { super(); }
 	 */
-
 	public Converter() throws RemoteException {
 		super();
 	}
 
-	// TODO: Uma solução melhor do que fazer vários IFs
 	@Override
 	public Double currencyAToB(Double value, String from, String to) throws RemoteException {
 		Double result = sendLiveRequest(from, to);
@@ -118,14 +82,6 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 		result.add(value * sendLiveRequest(from, "CNY"));
 		result.add(value * sendLiveRequest(from, "PLN"));
 
-		/*
-		 * if (a == 5) { result.add(value * GBP / GBP); result.add(value * GBP / USD);
-		 * result.add(value * GBP / BRL); }else if (a == 11) { result.add(value * USD /
-		 * GBP); result.add(value * USD / USD); result.add(value * USD / BRL); }else if
-		 * (a == 27) { result.add(value * BRL / GBP); result.add(value * BRL / USD);
-		 * result.add(value * BRL / BRL); }
-		 */
-
 		return result;
 	}
 
@@ -136,8 +92,6 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 		Double from2 = 1.0;
 		Double to2 = 1.0;
 		HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
-		// HttpGet get = new HttpGet(BASE_URL + CONVERT + "?access_key=" + ACCESS_KEY +
-		// FROM + from + TO + to + AMOUNT);
 		try {
 			CloseableHttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
@@ -154,9 +108,9 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 
 				String infoErro = exchangeRates.getJSONObject("error").getString("info");
 
-				System.out.println("A API chegou ao limite de suas forças.");
-				System.out.println("Erro: " + codigoErro);
-				System.out.println("Mensagem: " + infoErro);
+				System.out.println("API reached its peak of access.");
+				System.out.println("Error: " + codigoErro);
+				System.out.println("Message: " + infoErro);
 				System.exit(0);
 			}
 			// Parsed JSON Objects are accessed according to the JSON resonse's hierarchy,
@@ -173,23 +127,17 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 					.println(to + " IN USD " + 1 / exchangeRates.getJSONObject("quotes").getDouble(STATIC_DOLAR + to));
 			to2 = 1 / exchangeRates.getJSONObject("quotes").getDouble(STATIC_DOLAR + to);
 			System.out.println(from + " IN " + to + ": " + from2 / to2);
-			// System.out.println("3 converting " + from + " in " + to + ": " + 1/from + );
-			// System.out.println("\n");
 
 			response.close();
 			return from2 / to2;
 
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
