@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface IConvert extends Remote{
 	
-	public Double currencyAToB(Double value, int a, int b) throws RemoteException;
+	public Double currencyAToB(Double value, String from, String to) throws RemoteException;
 	
-	public List<Double> currencyAToAll(Double value, int a) throws RemoteException;
+	public List<Double> currencyAToAll(Double value, String from) throws RemoteException;
 	
 }
