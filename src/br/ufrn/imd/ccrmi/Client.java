@@ -9,11 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+/**
+ * Classe cliente onde serão feitos os pedidos de conversão de moedas.
+ * @author carlosant
+ * @author pedrohcavalcante
+ */
 public class Client {
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
 		// Referência de objeto para o stub do servidor. Usado para chamada de métodos remotos.
 		IConvert stub = (IConvert) Naming.lookup("rmi://localhost/CurrencyConverter");
 
+		//Moedas de origem para conversão
 		String[] values = { "DKK - Coroa Dinamarquesa", "NOK - Coroa Norueguesa", "SEK - Coroa Sueca",
 				"CZK - Coroa Tcheca", "GBP - Libra Esterlina", "TRY - Lira Turca", "INR - Rúpia Indiana",
 				"IDR - Rúpia Indonésia", "PKR - Rúpia Paquistanesa", "THB - Baht Tailandês", "USD - Dólar Americano",
@@ -24,6 +30,7 @@ public class Client {
 				"BRL - Real Brasileiro", "MYR - Ringgit Malaio", "RUB - Rublo Russo", "KRW - Won Sul-coreano",
 				"CNY - Yuan Renminbi Chinês", "PLN - Zloty Polonês" };
 
+		//Moedas de destino da conversão. NOTA: Ao deixar na opção "SELECIONE", a moeda de origem será convertido para todas as outras.
 		String[] values2 = { "SELECIONE", "DKK - Coroa Dinamarquesa", "NOK - Coroa Norueguesa", "SEK - Coroa Sueca",
 				"CZK - Coroa Tcheca", "GBP - Libra Esterlina", "TRY - Lira Turca", "INR - Rúpia Indiana",
 				"IDR - Rúpia Indonésia", "PKR - Rúpia Paquistanesa", "THB - Baht Tailandês", "USD - Dólar Americano",
@@ -36,6 +43,7 @@ public class Client {
 
 		Double value = 0.0;
 		
+		//Valida o valor a ser utilizado na conversão.
 		while (value <= 0.0) {
 			try {
 				value = Double.parseDouble(JOptionPane.showInputDialog("Insert a value:"));
@@ -46,6 +54,7 @@ public class Client {
 			}
 		}
 		
+		//Tela de selecão da moeda de origem
 		Object objetoFrom = JOptionPane.showInputDialog(null, "Convert Source", "CurrencyConverter",
 				JOptionPane.DEFAULT_OPTION, null, values, "DKK");
 		String selectedFrom = null;
@@ -59,13 +68,18 @@ public class Client {
 			System.exit(0);
 		}
 		
+		//Tela de seleção da moeda de destino (ou para o caso de não selecionar nenhuma)
 		Object objetoTo = JOptionPane.showInputDialog(null, "Convert Source", "CurrencyConverter",
 				JOptionPane.DEFAULT_OPTION, null, values2, "SELECIONE");
+		
+		//Lista auxiliar utilizada para receber o retorno da conversão de uma moeda para todas
 		List<Double> result = new ArrayList<Double>();
+		
 		if (objetoTo != null && !objetoTo.equals("SELECIONE")) {
 			selectedTo = objetoTo.toString().substring(0, 3);
 			Double resultado = 0.0;
 			try{
+				//Chamada do método remoto de conversão de uma moeda para outra
 				resultado = stub.currencyAToB(value, selectedFrom, selectedTo);
 			} catch (UnmarshalException e) {
 				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
@@ -76,6 +90,7 @@ public class Client {
 		} else if (objetoTo.equals("SELECIONE")) {
 			
 			try{
+				//Chamada do método remoto de conversão de uma moeda para todas as outras
 				result = stub.currencyAToAll(value, selectedFrom);
 			} catch (UnmarshalException e) {
 				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");

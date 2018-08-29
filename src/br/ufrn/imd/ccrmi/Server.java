@@ -5,15 +5,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 /**
- * blah blah blah
- * @author carlosantq
+ * Classe criada para rodar o servidor remoto.
+ * @author carlosant
  * @author pedrohcavalcante
- *
  */
 public class Server {
 	
 	/**
-	 * Main method.
+	 * Método principal.
 	 * @param args
 	 * @throws RemoteException
 	 * @throws MalformedURLException
@@ -28,6 +27,7 @@ public class Server {
 		//Registro no módulo de referência remota
 		Naming.rebind("rmi://localhost/CurrencyConverter", converter);
 		
+		//Mensagem impressa em console para sinalizar que o servidor está funcionando
 		System.out.println("Running!");
 	}
 }
