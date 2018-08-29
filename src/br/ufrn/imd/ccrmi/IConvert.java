@@ -21,7 +21,7 @@ public interface IConvert extends Remote{
 	public Double currencyAToB(Double value, String from, String to) throws RemoteException;
 	
 	/**
-	 * Converte o valor de uma moeda A para todas as 20 moedas da base de dados.
+	 * Converte o valor de uma moeda A para todas as 32 moedas da base de dados.
 	 * @param value - valor a ser convertido
 	 * @param from - moeda de origem
 	 * @return Lista com valores convertidos

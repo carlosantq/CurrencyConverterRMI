@@ -62,7 +62,7 @@ public class Converter extends UnicastRemoteObject implements IConvert {
 	}
 
 	/**
-	 * Converte o valor de uma moeda A para todas as 20 moedas da base de dados.
+	 * Converte o valor de uma moeda A para todas as 32 moedas da base de dados.
 	 * @param value - valor a ser convertido
 	 * @param from - moeda de origem
 	 * @return Lista com valores convertidos
