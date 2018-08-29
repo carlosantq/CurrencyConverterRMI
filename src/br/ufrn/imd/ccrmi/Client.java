@@ -11,8 +11,7 @@ import javax.swing.JOptionPane;
 
 public class Client {
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
-		// Referência de objeto para o stub do servidor. Usado para chamada de métodos
-		// remotos.
+		// Referência de objeto para o stub do servidor. Usado para chamada de métodos remotos.
 		IConvert stub = (IConvert) Naming.lookup("rmi://localhost/CurrencyConverter");
 
 		String[] values = { "DKK - Coroa Dinamarquesa", "NOK - Coroa Norueguesa", "SEK - Coroa Sueca",
@@ -54,6 +53,7 @@ public class Client {
 		if (objetoFrom != null) {
 			selectedFrom = objetoFrom.toString().substring(0, 3);
 			System.out.println(selectedFrom);
+			System.out.println(value);
 		} else {
 			System.out.println("User cancelled.");
 			System.exit(0);
@@ -82,7 +82,7 @@ public class Client {
 				System.exit(0);
 			}
 			for (int i = 0; i < result.size(); i++) {
-				System.out.println(result.get(i));
+				System.out.println(values[i] + ": " + result.get(i));
 			}
 		} else {
 			System.out.println("User cancelled.");
