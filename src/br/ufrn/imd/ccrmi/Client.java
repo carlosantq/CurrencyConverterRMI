@@ -1,6 +1,7 @@
 package br.ufrn.imd.ccrmi;
 
 import java.net.MalformedURLException;
+import java.rmi.ConnectException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -84,6 +85,9 @@ public class Client {
 			} catch (UnmarshalException e) {
 				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
+			}catch (ConnectException ce) {
+				System.out.println("Server is off. Bye.");
+				System.exit(0);
 			}
 			
 			System.out.println(selectedFrom + " to "+ selectedTo + ": " + resultado);
@@ -95,7 +99,11 @@ public class Client {
 			} catch (UnmarshalException e) {
 				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
+			} catch (ConnectException ce) {
+				System.out.println("Server is off. Bye.");
+				System.exit(0);
 			}
+			
 			for (int i = 0; i < result.size(); i++) {
 				System.out.println(values[i] + ": " + result.get(i));
 			}

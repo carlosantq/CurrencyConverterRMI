@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class Converter extends UnicastRemoteObject implements IConvert {
 
 	//Atributos utilizados no acesso da API
-	public static final String ACCESS_KEY = "f60e4668da4b6a583e6af0a82cb81089";
+	public static final String ACCESS_KEY = "7f7012ebf6b30f1cab604e8a4f0737fa";
 	public static final String BASE_URL = "http://apilayer.net/api/";
 	public static final String FROM = "&from=";
 	public static final String TO = "&to=";
