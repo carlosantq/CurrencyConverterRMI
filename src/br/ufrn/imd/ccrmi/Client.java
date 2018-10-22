@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class Client {
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
-		// Referência de objeto para o stub do servidor. Usado para chamada de métodos remotos.
+		// Referencia de objeto para o stub do servidor. Usado para chamada de metodos remotos.
 		IConvert stub = (IConvert) Naming.lookup("rmi://localhost/CurrencyConverter");
 
-		//Moedas de origem para conversão
+		//Moedas de origem para conversao
 		String[] values = { "DKK - Coroa Dinamarquesa", "NOK - Coroa Norueguesa", "SEK - Coroa Sueca",
 				"CZK - Coroa Tcheca", "GBP - Libra Esterlina", "TRY - Lira Turca", "INR - Rúpia Indiana",
 				"IDR - Rúpia Indonésia", "PKR - Rúpia Paquistanesa", "THB - Baht Tailandês", "USD - Dólar Americano",
@@ -83,10 +83,10 @@ public class Client {
 				//Chamada do método remoto de conversão de uma moeda para outra
 				resultado = stub.currencyAToB(value, selectedFrom, selectedTo);
 			} catch (UnmarshalException e) {
-				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
+				System.out.println("The API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
 			}catch (ConnectException ce) {
-				System.out.println("Server is off. Bye.");
+				System.out.println("Server is off. Please, be patient.");
 				System.exit(0);
 			}
 			
@@ -97,10 +97,10 @@ public class Client {
 				//Chamada do método remoto de conversão de uma moeda para todas as outras
 				result = stub.currencyAToAll(value, selectedFrom);
 			} catch (UnmarshalException e) {
-				System.out.println("Oops, I did it again. The API reached its limit and is tired. Contact the developer group to get a new access key.");
+				System.out.println("he API reached its limit and is tired. Contact the developer group to get a new access key.");
 				System.exit(0);
 			} catch (ConnectException ce) {
-				System.out.println("Server is off. Bye.");
+				System.out.println("Server is off. Please be patient.");
 				System.exit(0);
 			}
 			
@@ -108,7 +108,7 @@ public class Client {
 				System.out.println(values[i] + ": " + result.get(i));
 			}
 		} else {
-			System.out.println("User cancelled.");
+			System.out.println("User cancelled the operation.");
 			System.exit(0);
 		}
 
